@@ -1,5 +1,6 @@
 import "./styles.css";
-import React, {useState} from "react";
+import React, { useState } from "react";
+import Tolist from "./components/Tolist";
 
 export default function App() {
 
@@ -11,11 +12,22 @@ export default function App() {
     setInputText(newValue);
   }
 
-  function addItem(){
+  function addItem() {
     setItems(prevItems => {
-      return [...prevItems,inputText];
+      return [...prevItems, inputText];
     });
+    setInputText("");
   };
+
+  function deleteItem(id) {
+    setItems(prevItems => {
+      return prevItems.filter(
+        (item, index) => {
+          return index !== id;
+        }
+      )
+    })
+  }
 
 
 
@@ -32,10 +44,15 @@ export default function App() {
       </div>
       <div>
         <ul>
-          {items.map(todoItem =>(
-            <li>{todoItem}</li>
+          {items.map((todoItem, index) => (
+            <Tolist
+              key={index}
+              id={index}
+              text={todoItem}
+              onChecked={deleteItem}
+            />
           ))}
-          
+
         </ul>
       </div>
     </div>
